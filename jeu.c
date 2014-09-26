@@ -251,6 +251,8 @@ void jeu_deplacement(SDL_Surface * ecran){
                             ListBonus[Partie.nbr_bonus].positionSprite.y =(ListBonus[Partie.nbr_bonus].bonustype - 1)*14;
                             Partie.nbr_bonus += 1;
                             break;
+                        default:
+                            break;
                     }
                     break;
             }
@@ -416,7 +418,7 @@ void jeu_deplacement(SDL_Surface * ecran){
 
             SDL_Flip(ecran); //Toutes les 15sec mise a jour de l'ecran
         }else{
-            SDL_Delay(1);
+            //SDL_Delay(1);
         }
     }
     SDL_FreeSurface(ecran);

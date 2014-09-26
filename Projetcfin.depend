@@ -370,3 +370,41 @@
 	<SDL_image.h>
 	"Jeu.h"
 
+1411763487 source:c:\users\aztyu\documents\developpement\retro_breaker\gestion_jeu.c
+	<stdlib.h>
+	<stdio.h>
+	<SDL/SDL.h>
+	<SDL_image.h>
+	"Jeu.h"
+
+1411762900 c:\users\aztyu\documents\developpement\retro_breaker\jeu.h
+
+1411754464 source:c:\users\aztyu\documents\developpement\retro_breaker\jeu.c
+	<stdlib.h>
+	<stdio.h>
+	<SDL/SDL.h>
+	<SDL_image.h>
+	<math.h>
+	<time.h>
+	"Jeu.h"
+	"chargement.h"
+	"gestion_jeu.h"
+
+1402909048 c:\users\aztyu\documents\developpement\retro_breaker\chargement.h
+
+1411763437 c:\users\aztyu\documents\developpement\retro_breaker\gestion_jeu.h
+
+1411754516 source:c:\users\aztyu\documents\developpement\retro_breaker\chargement.c
+	<stdlib.h>
+	<stdio.h>
+	<SDL/SDL.h>
+	<SDL_image.h>
+	"Jeu.h"
+
+1411754400 source:c:\users\aztyu\documents\developpement\retro_breaker\main.c
+	<stdlib.h>
+	<stdio.h>
+	<SDL/SDL.h>
+	<SDL_image.h>
+	"Jeu.h"
+

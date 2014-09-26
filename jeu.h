@@ -20,7 +20,28 @@ struct Partie {                     //On cree une structure qui contient les pri
     int plateaustick;
     int nbr_balle;
     int vitesse;
+    int is_loaded;
 }Partie;
+
+struct Game_assets{                     //On cree une structure qui contient les principales variables du jeu
+    SDL_Surface *ecran;
+    SDL_Surface *imageDeFond;
+    SDL_Surface *brique1;        //Initialisation des surfaces affichant les diverses briques
+    SDL_Surface *brique2;
+    SDL_Surface *brique3;
+    SDL_Surface *brique4;
+    SDL_Surface *brique6;
+    SDL_Surface *brique7;
+    SDL_Surface *brique8;
+    SDL_Surface *brique9;
+    SDL_Surface *gameover;
+    SDL_Surface *plateau;
+    SDL_Surface *casebonus;
+    SDL_Surface *fond;
+    SDL_Surface *balle;
+    SDL_Surface *imagevie;
+    SDL_Surface *niveau;
+}Game_assets;
 
 struct Bonus{                   //Cette structure et le tableau de structure permet de gerer jusqu'a 21 bonus independamment
     SDL_Rect positionBonus;

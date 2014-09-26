@@ -99,14 +99,6 @@ void initialise_fichier(){
 
 int charger_niveau(SDL_Surface * ecran){
     int y = 0,i = 0,j = 0;
-    SDL_Surface *brique1 = NULL,        //Initialisation des surfaces affichant les diverses briques
-                *brique2 = NULL,
-                *brique3 = NULL,
-                *brique4 = NULL,
-                *brique6 = NULL,
-                *brique7 = NULL,
-                *brique8 = NULL,
-                *brique9 = NULL;
 
     SDL_Rect positionBrique;
 
@@ -115,14 +107,17 @@ int charger_niveau(SDL_Surface * ecran){
     positionBrique.x = 16;              //L'aire de jeu pouvant etre modifiee commence a 16/16
     positionBrique.y = 16;
 
-    brique1 = IMG_Load("brique/1.png");     //Chargement des image en .png dans les surfaces
-    brique2 = IMG_Load("brique/2.png");
-    brique3 = IMG_Load("brique/3.png");
-    brique4 = IMG_Load("brique/4.png");
-    brique6 = IMG_Load("brique/6.png");
-    brique7 = IMG_Load("brique/7.png");
-    brique8 = IMG_Load("brique/8.png");
-    brique9 = IMG_Load("brique/9.png");
+    if(Partie.is_loaded == 0){
+        Game_assets.brique1 = IMG_Load("brique/1.png");     //Chargement des image en .png dans les surfaces
+        Game_assets.brique2 = IMG_Load("brique/2.png");
+        Game_assets.brique3 = IMG_Load("brique/3.png");
+        Game_assets.brique4 = IMG_Load("brique/4.png");
+        Game_assets.brique6 = IMG_Load("brique/6.png");
+        Game_assets.brique7 = IMG_Load("brique/7.png");
+        Game_assets.brique8 = IMG_Load("brique/8.png");
+        Game_assets.brique9 = IMG_Load("brique/9.png");
+        Partie.is_loaded = 1;
+    }
 
     for (i=1;i<45;i++)
     {
@@ -131,35 +126,35 @@ int charger_niveau(SDL_Surface * ecran){
         for(j=1;j<63;j++){
             switch(tab_Collision [j][i]){           //Selon la valeur contenu dans le tableau on affiche la brique correspondante
             case 1:
-                SDL_BlitSurface(brique1, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique1, NULL, ecran, &positionBrique);
                 Partie.brique += 1;
                 break;
             case 2:
-                SDL_BlitSurface(brique2, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique2, NULL, ecran, &positionBrique);
                 Partie.brique += 1;
                 break;
             case 3:
-                SDL_BlitSurface(brique3, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique3, NULL, ecran, &positionBrique);
                 Partie.brique += 1;
                 break;
             case 4:
-                SDL_BlitSurface(brique4, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique4, NULL, ecran, &positionBrique);
                 Partie.brique += 1;
                 break;
             case 6:
-                SDL_BlitSurface(brique6, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique6, NULL, ecran, &positionBrique);
                 Partie.brique += 1;
                 break;
             case 7:
-                SDL_BlitSurface(brique7, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique7, NULL, ecran, &positionBrique);
                 Partie.brique += 1;
                 break;
             case 8:
-                SDL_BlitSurface(brique8, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique8, NULL, ecran, &positionBrique);
                 Partie.brique += 1;
                 break;
             case 9:
-                SDL_BlitSurface(brique9, NULL, ecran, &positionBrique);
+                SDL_BlitSurface(Game_assets.brique9, NULL, ecran, &positionBrique);
                 break;
             default:
                 break;
@@ -174,13 +169,5 @@ int charger_niveau(SDL_Surface * ecran){
         Partie.niveau += 1;
         return 1;
     }
-    SDL_FreeSurface(brique1);
-    SDL_FreeSurface(brique2);
-    SDL_FreeSurface(brique3);
-    SDL_FreeSurface(brique4);
-    SDL_FreeSurface(brique6);
-    SDL_FreeSurface(brique7);
-    SDL_FreeSurface(brique8);
-    SDL_FreeSurface(brique9);
     return 0;
 }

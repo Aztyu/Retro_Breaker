@@ -7,8 +7,7 @@
 
 void finPartie(SDL_Rect * positionBalle,SDL_Rect * positionPlateau,Vitesse * Balle,SDL_Surface * ecran){
 
-    SDL_Surface *gameover = NULL;
-    gameover = IMG_Load("image/Gameover.png");
+    Game_assets.gameover = IMG_Load("image/Gameover.png");
     positionBalle->x = positionPlateau->x+40-(positionBalle->w/2);      //On reinitialise la position de la balle
     positionBalle->y = 728;                                             // et de certaines variable apres la mort
     Partie.lancer = 0;
@@ -16,7 +15,7 @@ void finPartie(SDL_Rect * positionBalle,SDL_Rect * positionPlateau,Vitesse * Bal
 
     if (Partie.vie == 1){
         //printf("perdu %d",Partie.vie);
-        SDL_BlitSurface(gameover,NULL,ecran,NULL);
+        SDL_BlitSurface(Game_assets.gameover,NULL,ecran,NULL);
         SDL_Flip(ecran);
         ecran_niveau(ecran);
         SDL_Quit();
@@ -40,14 +39,6 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
     SDL_Rect positionBalle;     //rectangle pour la balle
     SDL_Rect positionJeu;
     SDL_Rect positionVie;
-
-
-    SDL_Surface *plateau = NULL,
-                *casebonus = NULL,
-                *fond = NULL,
-                *balle = NULL,
-                *imagevie = NULL,
-                *niveau = NULL;
 
     SDL_Event event;
 
@@ -81,19 +72,19 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
             Balle.x *= -1;
         }
 
-        fond = IMG_Load("image/accueil.png");
-        plateau = IMG_Load("image/PlateauT.png");                          //Chargement des images sur les surface
-        balle = IMG_Load("image/BalleNeon.png");
-        casebonus = IMG_Load("image/BonusGrand.png");
-        imagevie = IMG_Load("image/vie.png");
-        niveau = IMG_Load("image/EcranJeu.png");
+        Game_assets.fond = IMG_Load("image/accueil.png");
+        Game_assets.plateau = IMG_Load("image/PlateauT.png");                          //Chargement des images sur les surface
+        Game_assets.balle = IMG_Load("image/BalleNeon.png");
+        Game_assets.casebonus = IMG_Load("image/BonusGrand.png");
+        Game_assets.imagevie = IMG_Load("image/vie.png");
+        Game_assets.niveau = IMG_Load("image/EcranJeu.png");
 
     ListBalle_sup[1].existe = 0;
     Partie.lancer = 0;
 
     demarrer(ecran);                                            //Affiche toutes les briques du bord du mur
-    SDL_BlitSurface(plateau, NULL, ecran, &positionPlateau);    //Affiche la nouveau plateau
-    SDL_BlitSurface(balle, NULL, ecran, &positionBalle);        //Affiche la nouvelle balle
+    SDL_BlitSurface(Game_assets.plateau, NULL, ecran, &positionPlateau);    //Affiche la nouveau plateau
+    SDL_BlitSurface(Game_assets.balle, NULL, ecran, &positionBalle);        //Affiche la nouvelle balle
     initialise_fichier();
 
     charger_niveau(ecran);
@@ -144,7 +135,11 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                         case SDLK_UP:
                             Partie.lancer = 1; //On lance la balle
                             break;
+                        default:
+                            break;
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -165,39 +160,39 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                 }
             }
             if (Partie.bonus == 1 && positionPlateau.w != 160){
-                SDL_FreeSurface(plateau);
-                plateau = IMG_Load("image/PlateauTg.png");
+                SDL_FreeSurface(Game_assets.plateau);
+                Game_assets.plateau = IMG_Load("image/PlateauTg.png");
                 positionPlateau.w = 160;
                 //printf("aggrandi\n");
             }else if(positionPlateau.w != 80 && Partie.bonus != 1 && Partie.bonus != 6){
-                SDL_FreeSurface(plateau);
-                plateau = IMG_Load("image/PlateauT.png");
+                SDL_FreeSurface(Game_assets.plateau);
+                Game_assets.plateau = IMG_Load("image/PlateauT.png");
                 positionPlateau.w = 80;
                 //printf("retrecit/n");
             }
 
             if(Partie.bonus == 2){
                 if (Partie.plateaustick == 0){
-                    SDL_FreeSurface(plateau);
-                    plateau = IMG_Load("image/PlateauTs.png");
+                    SDL_FreeSurface(Game_assets.plateau);
+                    Game_assets.plateau = IMG_Load("image/PlateauTs.png");
                     Partie.plateaustick = 1;
                 }
             }else if (Partie.plateaustick == 1){
-                    SDL_FreeSurface(plateau);
-                    plateau = IMG_Load("image/PlateauT.png");
+                    SDL_FreeSurface(Game_assets.plateau);
+                    Game_assets.plateau = IMG_Load("image/PlateauT.png");
                     Partie.plateaustick = 0;
 
             }
 
             if(Partie.bonus == 4){
                 if (Partie.balleflamme == 0){
-                    SDL_FreeSurface(balle);
-                    balle = IMG_Load("image/BalleNeonF.png");
+                    SDL_FreeSurface(Game_assets.balle);
+                    Game_assets.balle = IMG_Load("image/BalleNeonF.png");
                     Partie.balleflamme = 1;
                 }
             }else if(Partie.balleflamme == 1){
-                    SDL_FreeSurface(balle);
-                    balle = IMG_Load("image/BalleNeon.png");
+                    SDL_FreeSurface(Game_assets.balle);
+                    Game_assets.balle = IMG_Load("image/BalleNeon.png");
                     Partie.balleflamme = 0;
 
             }
@@ -212,12 +207,12 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
             }
 
             if (Partie.bonus == 6){
-                SDL_FreeSurface(plateau);
-                plateau = IMG_Load("image/PlateauTp.png");
+                SDL_FreeSurface(Game_assets.plateau);
+                Game_assets.plateau = IMG_Load("image/PlateauTp.png");
                 positionPlateau.w = 48;
             }else if(positionPlateau.w != 80 && Partie.bonus != 1){
-                SDL_FreeSurface(plateau);
-                plateau = IMG_Load("image/PlateauT.png");
+                SDL_FreeSurface(Game_assets.plateau);
+                Game_assets.plateau = IMG_Load("image/PlateauT.png");
                 positionPlateau.w = 80;
             }
             if (Partie.bonus == 7){
@@ -255,7 +250,7 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                 finPartie(&positionBalle,&positionPlateau,&Balle,ecran);
             }
 
-            SDL_BlitSurface(niveau,&positionJeu,ecran,&positionJeu);
+            SDL_BlitSurface(Game_assets.niveau,&positionJeu,ecran,&positionJeu);
 
             DeplaBonus(&positionPlateau,&Balle);
 
@@ -263,21 +258,21 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
 
             //SDL_FillRect(ecran, &positionJeu, SDL_MapRGB(ecran->format, 0, 0, 0));
             charger_niveau(ecran);
-            SDL_BlitSurface(plateau, NULL, ecran, &positionPlateau);            //On affiche les evenements mise a jours : balle et plateau
-            SDL_BlitSurface(balle, NULL, ecran, &positionBalle);
+            SDL_BlitSurface(Game_assets.plateau, NULL, ecran, &positionPlateau);            //On affiche les evenements mise a jours : balle et plateau
+            SDL_BlitSurface(Game_assets.balle, NULL, ecran, &positionBalle);
 
             if (ListBalle_sup[1].existe == 1){
-                SDL_BlitSurface(balle, NULL, ecran, &ListBalle_sup[1].positionBalle_sup);
+                SDL_BlitSurface(Game_assets.balle, NULL, ecran, &ListBalle_sup[1].positionBalle_sup);
             }
 
             for (i=0;i<Partie.nbr_bonus;i++){
                 if(ListBonus[i].positionBonus.x != 0){
-                    SDL_BlitSurface(casebonus,&ListBonus[i].positionSprite,ecran,&ListBonus[i].positionBonus);
+                    SDL_BlitSurface(Game_assets.casebonus,&ListBonus[i].positionSprite,ecran,&ListBonus[i].positionBonus);
                 }
             }
 
             for(i=0 ; i<Partie.vie ; i++){
-                SDL_BlitSurface(imagevie,NULL,ecran,&positionVie);
+                SDL_BlitSurface(Game_assets.imagevie,NULL,ecran,&positionVie);
                 positionVie.x += 16;
             }
             positionVie.x = 16;
@@ -288,11 +283,11 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
         }
 
         if(charger_niveau(ecran) == 1){
-            SDL_FreeSurface(fond);
-            SDL_FreeSurface(plateau);                          //Chargement des images sur les surface
-            SDL_FreeSurface(balle);
-            SDL_FreeSurface(casebonus);
-            SDL_FreeSurface(imagevie);
+            SDL_FreeSurface(Game_assets.fond);
+            SDL_FreeSurface(Game_assets.plateau);                          //Chargement des images sur les surface
+            SDL_FreeSurface(Game_assets.balle);
+            SDL_FreeSurface(Game_assets.casebonus);
+            SDL_FreeSurface(Game_assets.imagevie);
             return;
         }
     }
@@ -324,14 +319,35 @@ void ecran_niveau(SDL_Surface *ecran){      //Cette fonction demande juste a l'u
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
-                case SDLK_SPACE: /* Appui sur la touche Echap, on arrête le programme */
-                        continuer = 0;
+                    case SDLK_SPACE: /* Appui sur la touche Echap, on arrête le programme */
+                            continuer = 0;
+                            break;
+                    default:
                         break;
-
-
                 }
                 break;
-
+            default:
+                break;
         }
     }
+}
+
+void init_surfaces(){
+    Game_assets.ecran = malloc(sizeof(SDL_Surface*));
+    Game_assets.imageDeFond = malloc(sizeof(SDL_Surface*));
+    Game_assets.brique1 = malloc(sizeof(SDL_Surface*));      //Initialisation des surfaces affichant les diverses briques
+    Game_assets.brique2 = malloc(sizeof(SDL_Surface*));
+    Game_assets.brique3 = malloc(sizeof(SDL_Surface*));
+    Game_assets.brique4 = malloc(sizeof(SDL_Surface*));
+    Game_assets.brique6 = malloc(sizeof(SDL_Surface*));
+    Game_assets.brique7 = malloc(sizeof(SDL_Surface*));
+    Game_assets.brique8 = malloc(sizeof(SDL_Surface*));
+    Game_assets.brique9 = malloc(sizeof(SDL_Surface*));
+    Game_assets.gameover = malloc(sizeof(SDL_Surface*));
+    Game_assets.plateau = malloc(sizeof(SDL_Surface*));
+    Game_assets.casebonus = malloc(sizeof(SDL_Surface*));
+    Game_assets.fond = malloc(sizeof(SDL_Surface*));
+    Game_assets.balle = malloc(sizeof(SDL_Surface*));
+    Game_assets.imagevie = malloc(sizeof(SDL_Surface*));
+    Game_assets.niveau = malloc(sizeof(SDL_Surface*));
 }
