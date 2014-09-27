@@ -8,6 +8,7 @@
 void finPartie(SDL_Rect * positionBalle,SDL_Rect * positionPlateau,Vitesse * Balle,SDL_Surface * ecran){
 
     Game_assets.gameover = IMG_Load("image/Gameover.png");
+    optimize_surface(Game_assets.gameover);
     positionBalle->x = positionPlateau->x+40-(positionBalle->w/2);      //On reinitialise la position de la balle
     positionBalle->y = 728;                                             // et de certaines variable apres la mort
     Partie.lancer = 0;
@@ -73,11 +74,17 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
         }
 
         Game_assets.fond = IMG_Load("image/accueil.png");
-        Game_assets.plateau = IMG_Load("image/PlateauT.png");                          //Chargement des images sur les surface
+        optimize_surface(Game_assets.fond);
+        Game_assets.plateau = IMG_Load("image/PlateauT.png");
+        optimize_surface(Game_assets.plateau);                          //Chargement des images sur les surface
         Game_assets.balle = IMG_Load("image/BalleNeon.png");
+        optimize_surface(Game_assets.balle);
         Game_assets.casebonus = IMG_Load("image/BonusGrand.png");
+        optimize_surface(Game_assets.casebonus);
         Game_assets.imagevie = IMG_Load("image/vie.png");
+        optimize_surface(Game_assets.imagevie);
         Game_assets.niveau = IMG_Load("image/EcranJeu.png");
+        optimize_surface(Game_assets.niveau);
 
     ListBalle_sup[1].existe = 0;
     Partie.lancer = 0;
@@ -162,11 +169,13 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
             if (Partie.bonus == 1 && positionPlateau.w != 160){
                 SDL_FreeSurface(Game_assets.plateau);
                 Game_assets.plateau = IMG_Load("image/PlateauTg.png");
+                optimize_surface(Game_assets.plateau);
                 positionPlateau.w = 160;
                 //printf("aggrandi\n");
             }else if(positionPlateau.w != 80 && Partie.bonus != 1 && Partie.bonus != 6){
                 SDL_FreeSurface(Game_assets.plateau);
                 Game_assets.plateau = IMG_Load("image/PlateauT.png");
+                optimize_surface(Game_assets.plateau);
                 positionPlateau.w = 80;
                 //printf("retrecit/n");
             }
@@ -175,11 +184,13 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                 if (Partie.plateaustick == 0){
                     SDL_FreeSurface(Game_assets.plateau);
                     Game_assets.plateau = IMG_Load("image/PlateauTs.png");
+                    optimize_surface(Game_assets.plateau);
                     Partie.plateaustick = 1;
                 }
             }else if (Partie.plateaustick == 1){
                     SDL_FreeSurface(Game_assets.plateau);
                     Game_assets.plateau = IMG_Load("image/PlateauT.png");
+                    optimize_surface(Game_assets.plateau);
                     Partie.plateaustick = 0;
 
             }
@@ -188,11 +199,13 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                 if (Partie.balleflamme == 0){
                     SDL_FreeSurface(Game_assets.balle);
                     Game_assets.balle = IMG_Load("image/BalleNeonF.png");
+                    optimize_surface(Game_assets.balle);
                     Partie.balleflamme = 1;
                 }
             }else if(Partie.balleflamme == 1){
                     SDL_FreeSurface(Game_assets.balle);
                     Game_assets.balle = IMG_Load("image/BalleNeon.png");
+                    optimize_surface(Game_assets.balle);
                     Partie.balleflamme = 0;
 
             }
@@ -209,10 +222,12 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
             if (Partie.bonus == 6){
                 SDL_FreeSurface(Game_assets.plateau);
                 Game_assets.plateau = IMG_Load("image/PlateauTp.png");
+                optimize_surface(Game_assets.plateau);
                 positionPlateau.w = 48;
             }else if(positionPlateau.w != 80 && Partie.bonus != 1){
                 SDL_FreeSurface(Game_assets.plateau);
                 Game_assets.plateau = IMG_Load("image/PlateauT.png");
+                optimize_surface(Game_assets.plateau);
                 positionPlateau.w = 80;
             }
             if (Partie.bonus == 7){
@@ -350,4 +365,11 @@ void init_surfaces(){
     Game_assets.balle = malloc(sizeof(SDL_Surface*));
     Game_assets.imagevie = malloc(sizeof(SDL_Surface*));
     Game_assets.niveau = malloc(sizeof(SDL_Surface*));
+    Game_assets.fin = malloc(sizeof(SDL_Surface*));
+}
+
+void optimize_surface(SDL_Surface * non_optimized){
+    SDL_Surface * optimized = NULL;
+    optimized = SDL_DisplayFormat(non_optimized);
+    SDL_FreeSurface(optimized);
 }

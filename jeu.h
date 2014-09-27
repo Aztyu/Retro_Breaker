@@ -41,6 +41,8 @@ struct Game_assets{                     //On cree une structure qui contient les
     SDL_Surface *balle;
     SDL_Surface *imagevie;
     SDL_Surface *niveau;
+    SDL_Surface *fin;
+    SDL_Surface *mur;
 }Game_assets;
 
 struct Bonus{                   //Cette structure et le tableau de structure permet de gerer jusqu'a 21 bonus independamment
