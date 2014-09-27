@@ -9,39 +9,39 @@
 #include "gestion_jeu.h"
 
 
-void demarrer(SDL_Surface * ecran){
+void demarrer(){
     int i = 0;
     SDL_Rect positionMur;      //creation du rectangle utilise pour le placement des murs
-
-    //Partie.bonus = 4;
 
     positionMur.x = 0;
     positionMur.y = 0;
 
     Game_assets.fond = IMG_Load("image/ecranjeu.png");
     optimize_surface(Game_assets.fond);
-    //SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
 
     Game_assets.mur = IMG_Load("brique/Briquelim.png"); //charge l'image de la brique
     optimize_surface(Game_assets.mur);
 
+    SDL_BlitSurface(Game_assets.fond, NULL, Game_assets.fond, NULL);
+
     for (i=0;i<48;i++){                                                    //boucles qui permettent de placer toutes les briques autour de l'ecran
-        SDL_BlitSurface(Game_assets.mur, NULL, ecran, &positionMur);
+        SDL_BlitSurface(Game_assets.mur, NULL, Game_assets.fond, &positionMur);
         positionMur.y += 16;
         tab_Collision [0][i]=1;
     }
     positionMur.y = 0;
     for (i=0;i<63;i++){
-        SDL_BlitSurface(Game_assets.mur, NULL, ecran, &positionMur);
+        SDL_BlitSurface(Game_assets.mur, NULL, Game_assets.fond, &positionMur);
         positionMur.x += 16;
         tab_Collision [i][0]=1;
     }
     for (i=0;i<48;i++){
-        SDL_BlitSurface(Game_assets.mur, NULL, ecran, &positionMur);
+        SDL_BlitSurface(Game_assets.mur, NULL, Game_assets.fond, &positionMur);
         positionMur.y += 16;
         tab_Collision [63][i]=1;
     }
-    SDL_FreeSurface(Game_assets.fond);
+    //SDL_FreeSurface(Game_assets.fond);
+    optimize_surface(Game_assets.fond);
     SDL_FreeSurface(Game_assets.mur);
 }
 
@@ -108,7 +108,8 @@ void jeu_deplacement(SDL_Surface * ecran){
         Game_assets.fin = IMG_Load("image/fin.png");
         optimize_surface(Game_assets.fin);
 
-    demarrer(ecran);                                            //Affiche toutes les briques du bord du mur
+    demarrer();
+    SDL_BlitSurface(Game_assets.fond,NULL,ecran,NULL);                                            //Affiche toutes les briques du bord du mur
     SDL_BlitSurface(Game_assets.plateau, NULL, ecran, &positionPlateau);    //Affiche la nouveau plateau
     SDL_BlitSurface(Game_assets.balle, NULL, ecran, &positionBalle);        //Affiche la nouvelle balle
     initialise_fichier();
@@ -423,6 +424,7 @@ void jeu_deplacement(SDL_Surface * ecran){
             }
 
             SDL_Flip(ecran); //Toutes les 15sec mise a jour de l'ecran
+            //SDL_BlitSurface(Game_assets.fond,NULL,ecran,NULL);
         }else{
             SDL_Delay(2);
         }

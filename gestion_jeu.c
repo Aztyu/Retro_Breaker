@@ -15,7 +15,6 @@ void finPartie(SDL_Rect * positionBalle,SDL_Rect * positionPlateau,Vitesse * Bal
     Partie.bonus = 0;
 
     if (Partie.vie == 1){
-        //printf("perdu %d",Partie.vie);
         SDL_BlitSurface(Game_assets.gameover,NULL,ecran,NULL);
         SDL_Flip(ecran);
         ecran_niveau(ecran);
@@ -160,10 +159,8 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
 
             if (ListBalle_sup[1].existe == 1){
                 DeplaBalle(&ListBalle_sup[1].positionBalle_sup,&ListBalle_sup[1].Balle,&positionPlateau,ecran);
-                printf("testballe");
                 if (ListBalle_sup[1].positionBalle_sup.y > 760){
                     ListBalle_sup[1].existe = 0;
-                    //printf("test\n");
                 }
             }
             if (Partie.bonus == 1 && positionPlateau.w != 160){
@@ -171,13 +168,11 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                 Game_assets.plateau = IMG_Load("image/PlateauTg.png");
                 optimize_surface(Game_assets.plateau);
                 positionPlateau.w = 160;
-                //printf("aggrandi\n");
             }else if(positionPlateau.w != 80 && Partie.bonus != 1 && Partie.bonus != 6){
                 SDL_FreeSurface(Game_assets.plateau);
                 Game_assets.plateau = IMG_Load("image/PlateauT.png");
                 optimize_surface(Game_assets.plateau);
                 positionPlateau.w = 80;
-                //printf("retrecit/n");
             }
 
             if(Partie.bonus == 2){
@@ -271,7 +266,6 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
 
             tempsPrecedent = tempsActuel; /* Le temps "actuel" devient le temps "precedent" pour nos futurs calculs */
 
-            //SDL_FillRect(ecran, &positionJeu, SDL_MapRGB(ecran->format, 0, 0, 0));
             charger_niveau(ecran);
             SDL_BlitSurface(Game_assets.plateau, NULL, ecran, &positionPlateau);            //On affiche les evenements mise a jours : balle et plateau
             SDL_BlitSurface(Game_assets.balle, NULL, ecran, &positionBalle);

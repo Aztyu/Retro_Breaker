@@ -61,7 +61,7 @@ struct Balle_sup ListBalle_sup[4];
 
 int tab_Collision [64][48];     //Tableau ou seront enregistrer les types de briques presents
 
-void demarrer(SDL_Surface * ecran);
+void demarrer();
 void jeu_deplacement(SDL_Surface * ecran);
 void DeplaBalle(SDL_Rect * positionBalle,Vitesse * Balle,SDL_Rect * positionPlateau,SDL_Surface * ecran);
 int verifCollision(int x,int y);
