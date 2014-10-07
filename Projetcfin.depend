@@ -370,16 +370,16 @@
 	<SDL_image.h>
 	"Jeu.h"
 
-1411825441 source:c:\users\aztyu\documents\developpement\retro_breaker\gestion_jeu.c
+1411898571 source:c:\users\aztyu\documents\developpement\retro_breaker\gestion_jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
 	<SDL_image.h>
 	"Jeu.h"
 
-1411825441 c:\users\aztyu\documents\developpement\retro_breaker\jeu.h
+1411897383 c:\users\aztyu\documents\developpement\retro_breaker\jeu.h
 
-1411825855 source:c:\users\aztyu\documents\developpement\retro_breaker\jeu.c
+1411898585 source:c:\users\aztyu\documents\developpement\retro_breaker\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -390,18 +390,18 @@
 	"chargement.h"
 	"gestion_jeu.h"
 
-1402909048 c:\users\aztyu\documents\developpement\retro_breaker\chargement.h
+1411828969 c:\users\aztyu\documents\developpement\retro_breaker\chargement.h
 
-1411814315 c:\users\aztyu\documents\developpement\retro_breaker\gestion_jeu.h
+1411898498 c:\users\aztyu\documents\developpement\retro_breaker\gestion_jeu.h
 
-1411754516 source:c:\users\aztyu\documents\developpement\retro_breaker\chargement.c
+1411828969 source:c:\users\aztyu\documents\developpement\retro_breaker\chargement.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
 	<SDL_image.h>
 	"Jeu.h"
 
-1411763516 source:c:\users\aztyu\documents\developpement\retro_breaker\main.c
+1411828969 source:c:\users\aztyu\documents\developpement\retro_breaker\main.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>

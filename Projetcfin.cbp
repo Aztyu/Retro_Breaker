@@ -49,7 +49,6 @@
 			<Add library="dxguid" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
-		<Unit filename="cb.bmp" />
 		<Unit filename="chargement.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -5,28 +5,34 @@
 #include "Jeu.h"
 
 
-void finPartie(SDL_Rect * positionBalle,SDL_Rect * positionPlateau,Vitesse * Balle,SDL_Surface * ecran){
+void finPartie(SDL_Rect * positionPlateau){
+
+    Partie.nbr_balle -= 1;
 
     Game_assets.gameover = IMG_Load("image/Gameover.png");
     optimize_surface(Game_assets.gameover);
-    positionBalle->x = positionPlateau->x+40-(positionBalle->w/2);      //On reinitialise la position de la balle
-    positionBalle->y = 728;                                             // et de certaines variable apres la mort
-    Partie.lancer = 0;
-    Partie.bonus = 0;
 
-    if (Partie.vie == 1){
-        SDL_BlitSurface(Game_assets.gameover,NULL,ecran,NULL);
-        SDL_Flip(ecran);
-        ecran_niveau(ecran);
-        SDL_Quit();
-    }else{
-        Partie.vie -= 1;
-    }
+    if(Partie.nbr_balle == 0){
+        Partie.positionBalle.x = positionPlateau->x+40-(Partie.positionBalle.w/2);      //On reinitialise la position de la balle
+        Partie.positionBalle.y = 728;                                             // et de certaines variable apres la mort
+        Partie.lancer = 0;
+        Partie.bonus = 0;
 
-    Balle->x = (rand()%3)+1;
-    Balle->y = sqrt(13 - pow(Balle->x,2));
-    if ((rand()%2) == 0){
-        Balle->x *= -1;
+        if (Partie.vie == 1){
+            SDL_BlitSurface(Game_assets.gameover,NULL,Game_assets.ecran,NULL);
+            SDL_Flip(Game_assets.ecran);
+            ecran_niveau(Game_assets.ecran);
+            SDL_Quit();
+        }else{
+            Partie.vie -= 1;
+        }
+
+        Partie.Balle.x = (rand()%3)+1;
+        Partie.Balle.y = sqrt(13 - pow(Partie.Balle.x,2));
+        if ((rand()%2) == 0){
+            Partie.Balle.x *= -1;
+        }
+        Partie.nbr_balle = 1;
     }
 }
 
@@ -36,7 +42,6 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
         i,j;
 
     SDL_Rect positionPlateau;   //Rectangle du plateau
-    SDL_Rect positionBalle;     //rectangle pour la balle
     SDL_Rect positionJeu;
     SDL_Rect positionVie;
 
@@ -52,10 +57,10 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
     positionPlateau.y = 736;
     positionPlateau.h = 16;
     positionPlateau.w = 80;
-    positionBalle.x = (1024.0 / 2.0) - (8.0 / 2.0);         //Position au milieu de l'ecran
-    positionBalle.y = 728.0;
-    positionBalle.h = 10;
-    positionBalle.w = 10;
+    Partie.positionBalle.x = (1024.0 / 2.0) - (8.0 / 2.0);         //Position au milieu de l'ecran
+    Partie.positionBalle.y = 728.0;
+    Partie.positionBalle.h = 10;
+    Partie.positionBalle.w = 10;
     positionJeu.x = 16;
     positionJeu.y = 16;
     positionJeu.h = 752;
@@ -65,32 +70,32 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
 
     srand(time(NULL));
 
-    Vitesse Balle;          //vitesse de la balle
-        Balle.x = (rand()%3)+1;
-        Balle.y = sqrt(13 - pow(Balle.x,2));
-        if ((rand()%2) == 0){
-            Balle.x *= -1;
-        }
+    Partie.Balle.x = (rand()%3)+1;
+    Partie.Balle.y = sqrt(13 - pow(Partie.Balle.x,2));
+    if ((rand()%2) == 0){
+        Partie.Balle.x *= -1;
+    }
 
-        Game_assets.fond = IMG_Load("image/accueil.png");
-        optimize_surface(Game_assets.fond);
-        Game_assets.plateau = IMG_Load("image/PlateauT.png");
-        optimize_surface(Game_assets.plateau);                          //Chargement des images sur les surface
-        Game_assets.balle = IMG_Load("image/BalleNeon.png");
-        optimize_surface(Game_assets.balle);
-        Game_assets.casebonus = IMG_Load("image/BonusGrand.png");
-        optimize_surface(Game_assets.casebonus);
-        Game_assets.imagevie = IMG_Load("image/vie.png");
-        optimize_surface(Game_assets.imagevie);
-        Game_assets.niveau = IMG_Load("image/EcranJeu.png");
-        optimize_surface(Game_assets.niveau);
+    Game_assets.fond = IMG_Load("image/accueil.png");
+    optimize_surface(Game_assets.fond);
+    Game_assets.plateau = IMG_Load("image/PlateauT.png");
+    optimize_surface(Game_assets.plateau);                          //Chargement des images sur les surface
+    Game_assets.balle = IMG_Load("image/BalleNeon.png");
+    optimize_surface(Game_assets.balle);
+    Game_assets.casebonus = IMG_Load("image/BonusGrand.png");
+    optimize_surface(Game_assets.casebonus);
+    Game_assets.imagevie = IMG_Load("image/vie.png");
+    optimize_surface(Game_assets.imagevie);
+    Game_assets.niveau = IMG_Load("image/EcranJeu.png");
+    optimize_surface(Game_assets.niveau);
 
     ListBalle_sup[1].existe = 0;
     Partie.lancer = 0;
+    Partie.nbr_balle = 1;
 
     demarrer(ecran);                                            //Affiche toutes les briques du bord du mur
     SDL_BlitSurface(Game_assets.plateau, NULL, ecran, &positionPlateau);    //Affiche la nouveau plateau
-    SDL_BlitSurface(Game_assets.balle, NULL, ecran, &positionBalle);        //Affiche la nouvelle balle
+    SDL_BlitSurface(Game_assets.balle, NULL, ecran, &Partie.positionBalle);        //Affiche la nouvelle balle
     initialise_fichier();
 
     charger_niveau(ecran);
@@ -126,7 +131,7 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                             if ((positionPlateau.x+positionPlateau.w+3) <= 1008){
                                 positionPlateau.x += 3;
                                 if (Partie.lancer == 0){       //Si la balle n'est pas lancee posBalle = posPlateau
-                                positionBalle.x += 3;
+                                    Partie.positionBalle.x += 3;
                                 }
                             }
                             break;
@@ -134,7 +139,7 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                             if ((positionPlateau.x-3)>= 16){
                                 positionPlateau.x -= 3;
                                 if (Partie.lancer == 0){       //Si la balle n'est pas lancee posBalle = posPlateau
-                                positionBalle.x -= 3;
+                                    Partie.positionBalle.x -= 3;
                                 }
                             }
                             break;
@@ -154,13 +159,14 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
         if (tempsActuel - tempsPrecedent > 12) /* Si 12 ms se sont écoulées depuis le dernier tour de boucle */
         {
             if (Partie.lancer == 1){
-                DeplaBalle(&positionBalle,&Balle,&positionPlateau,ecran); //toute les 15sec la balle boug
+                DeplaBalle(&Partie.positionBalle,&Partie.Balle,&positionPlateau,ecran); //toute les 15sec la balle boug
             }
 
             if (ListBalle_sup[1].existe == 1){
                 DeplaBalle(&ListBalle_sup[1].positionBalle_sup,&ListBalle_sup[1].Balle,&positionPlateau,ecran);
                 if (ListBalle_sup[1].positionBalle_sup.y > 760){
                     ListBalle_sup[1].existe = 0;
+                    //Partie.nbr_balle -= 1;
                 }
             }
             if (Partie.bonus == 1 && positionPlateau.w != 160){
@@ -206,10 +212,10 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
             }
 
             if (Partie.bonus == 3){
-                ListBalle_sup[1].positionBalle_sup.x = positionBalle.x;
-                ListBalle_sup[1].positionBalle_sup.y = positionBalle.y;
-                ListBalle_sup[1].Balle.x = -Balle.x;
-                ListBalle_sup[1].Balle.y = Balle.y;
+                ListBalle_sup[1].positionBalle_sup.x = Partie.positionBalle.x;
+                ListBalle_sup[1].positionBalle_sup.y = Partie.positionBalle.y;
+                ListBalle_sup[1].Balle.x = -Partie.Balle.x;
+                ListBalle_sup[1].Balle.y = Partie.Balle.y;
                 Partie.bonus = 0;
                 Partie.nbr_balle += 1;
             }
@@ -226,19 +232,19 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
                 positionPlateau.w = 80;
             }
             if (Partie.bonus == 7){
-                finPartie(&positionBalle,&positionPlateau,&Balle,ecran);
+                finPartie(&positionPlateau);
                 Partie.bonus = 0;
             }
 
             if(Partie.bonus == 5 || Partie.bonus == 8){     //Ici on accelere ou on freine la balle selon les bonus et des limites
                 if(Partie.bonus == 5){
-                    Balle.x = Balle.x/sqrt(1.5);
-                    Balle.y = Balle.y/sqrt(1.5);
+                    Partie.Balle.x = Partie.Balle.x/sqrt(1.5);
+                    Partie.Balle.y = Partie.Balle.y/sqrt(1.5);
                     Partie.vitesse = 0;
                     Partie.bonus = 0;
                 }else if(Partie.bonus == 8){
-                    Balle.x = Balle.x*sqrt(1.5);
-                    Balle.y = Balle.y*sqrt(1.5);
+                    Partie.Balle.x = Partie.Balle.x*sqrt(1.5);
+                    Partie.Balle.y = Partie.Balle.y*sqrt(1.5);
                     Partie.vitesse = 2;
                     Partie.bonus = 0;
                 }
@@ -246,29 +252,25 @@ void niveau_sup(SDL_Surface * ecran){       //Fonction similaire a jeu_deplaceme
 
             if(Partie.bonus != 5 && Partie.bonus != 8){     //Ici on accelere ou on freine la balle selon les bonus et des limites
                 if(Partie.vitesse == 0){
-                    Balle.x = Balle.x*sqrt(1.5);
-                    Balle.y = Balle.y*sqrt(1.5);
+                    Partie.Balle.x = Partie.Balle.x*sqrt(1.5);
+                    Partie.Balle.y = Partie.Balle.y*sqrt(1.5);
                     Partie.vitesse = 1;
                 }else if(Partie.vitesse == 2){
-                    Balle.x = Balle.x/sqrt(1.5);
-                    Balle.y = Balle.y/sqrt(1.5);
+                    Partie.Balle.x = Partie.Balle.x/sqrt(1.5);
+                    Partie.Balle.y = Partie.Balle.y/sqrt(1.5);
                     Partie.vitesse = 1;
                 }
             }
 
-            if (Partie.bonus == 7){
-                finPartie(&positionBalle,&positionPlateau,&Balle,ecran);
-            }
-
             SDL_BlitSurface(Game_assets.niveau,&positionJeu,ecran,&positionJeu);
 
-            DeplaBonus(&positionPlateau,&Balle);
+            DeplaBonus(&positionPlateau,&Partie.Balle);
 
             tempsPrecedent = tempsActuel; /* Le temps "actuel" devient le temps "precedent" pour nos futurs calculs */
 
             charger_niveau(ecran);
             SDL_BlitSurface(Game_assets.plateau, NULL, ecran, &positionPlateau);            //On affiche les evenements mise a jours : balle et plateau
-            SDL_BlitSurface(Game_assets.balle, NULL, ecran, &positionBalle);
+            SDL_BlitSurface(Game_assets.balle, NULL, ecran, &Partie.positionBalle);
 
             if (ListBalle_sup[1].existe == 1){
                 SDL_BlitSurface(Game_assets.balle, NULL, ecran, &ListBalle_sup[1].positionBalle_sup);

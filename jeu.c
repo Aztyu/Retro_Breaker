@@ -269,7 +269,6 @@ void jeu_deplacement(SDL_Surface * ecran){
                 DeplaBalle(&ListBalle_sup[1].positionBalle_sup,&ListBalle_sup[1].Balle,&positionPlateau,ecran); //Alors on la deplace
                 if (ListBalle_sup[1].positionBalle_sup.y > 760){ //Si elle sort de l'ecran ,on la supprime
                     ListBalle_sup[1].existe = 0;
-                    //printf("test\n");
                 }
             }
             if (Partie.bonus == 1 && positionPlateau.w != 160){ //Si le bonus grand plateau est actif est le plateau trop petit alors
@@ -277,13 +276,11 @@ void jeu_deplacement(SDL_Surface * ecran){
                 Game_assets.plateau = IMG_Load("image/PlateauTg.png");   //On change le sprite et la variable
                 optimize_surface(Game_assets.plateau);
                 positionPlateau.w = 160;
-                //printf("aggrandi\n");
             }else if(positionPlateau.w != 80 && Partie.bonus != 1 && Partie.bonus != 6){
                 SDL_FreeSurface(Game_assets.plateau);
                 Game_assets.plateau = IMG_Load("image/PlateauT.png");
                 optimize_surface(Game_assets.plateau);         //Si le bonus n'est plus actif, alors la variable redevient normale
                 positionPlateau.w = 80;
-                //printf("retrecit/n");
             }
 
             if(Partie.bonus == 2){
@@ -351,7 +348,7 @@ void jeu_deplacement(SDL_Surface * ecran){
                 positionPlateau.w = 80;
             }
             if (Partie.bonus == 7){             //Si le bonus est l'instakill on lance la perte d'une vie
-                finPartie(&positionBalle,&positionPlateau,&Balle,ecran);
+                finPartie(&positionPlateau);
                 Partie.bonus = 0;
             }
             if(Partie.bonus != 5 && Partie.bonus != 8){     //Ici on accelere ou on freine la balle selon les bonus et des limites
@@ -424,7 +421,6 @@ void jeu_deplacement(SDL_Surface * ecran){
             }
 
             SDL_Flip(ecran); //Toutes les 15sec mise a jour de l'ecran
-            //SDL_BlitSurface(Game_assets.fond,NULL,ecran,NULL);
         }else{
             SDL_Delay(2);
         }
@@ -447,7 +443,7 @@ void DeplaBalle(SDL_Rect * positionBalle,Vitesse * Balle,SDL_Rect * positionPlat
     testxopp = positionBalle->x - Balle->x + positionBalle->w;
 
     if(positionBalle->y > 740){     //Ici la balle tombe trop bas
-        finPartie(&*positionBalle,&*positionPlateau,&*Balle,ecran);
+        finPartie(&*positionPlateau);
     }else{
         int sommecollision = 0;
         if(verifCollision(testx,testy)){        //On verifie la collision de tous les angles de la balle
@@ -862,7 +858,6 @@ void casseflame(int * i,int * j){
             *i += 1;
             break;
         }
-
 }
 
 

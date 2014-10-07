@@ -21,6 +21,8 @@ struct Partie {                     //On cree une structure qui contient les pri
     int nbr_balle;
     int vitesse;
     int is_loaded;
+    Vitesse Balle;
+    SDL_Rect positionBalle;
 }Partie;
 
 struct Game_assets{                     //On cree une structure qui contient les principales variables du jeu
